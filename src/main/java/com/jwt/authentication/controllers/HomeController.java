@@ -16,7 +16,7 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("users")
+    @GetMapping("/users")
     public List<?> getUser() {
         return this.userService.getUsers();
     }
