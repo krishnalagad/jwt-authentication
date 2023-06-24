@@ -12,13 +12,13 @@ public class UserService {
 
     private List<User> users = new ArrayList<>();
 
-    public UserService() {
-        this.users.add(new User(UUID.randomUUID().toString(), "Krishna Lagad", "krishnalagad@gmail.com"));
-        this.users.add(new User(UUID.randomUUID().toString(), "Varsha Lagad", "varsha@gmail.com"));
-        this.users.add(new User(UUID.randomUUID().toString(), "Geeta Lagad", "Geeta@gmail.com"));
-        this.users.add(new User(UUID.randomUUID().toString(), "Aakanksha Lagad", "Aakanksha@gmail.com"));
-        this.users.add(new User(UUID.randomUUID().toString(), "Dilip Lagad", "Dilip@gmail.com"));
-    }
+//    public UserService() {
+//        this.users.add(new User(UUID.randomUUID().toString(), "Krishna Lagad", "krishnalagad@gmail.com"));
+//        this.users.add(new User(UUID.randomUUID().toString(), "Varsha Lagad", "varsha@gmail.com"));
+//        this.users.add(new User(UUID.randomUUID().toString(), "Geeta Lagad", "Geeta@gmail.com"));
+//        this.users.add(new User(UUID.randomUUID().toString(), "Aakanksha Lagad", "Aakanksha@gmail.com"));
+//        this.users.add(new User(UUID.randomUUID().toString(), "Dilip Lagad", "Dilip@gmail.com"));
+//    }
 
     public List<?> getUsers() {
         return this.users;
