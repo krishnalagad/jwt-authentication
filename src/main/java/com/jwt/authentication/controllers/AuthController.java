@@ -1,9 +1,12 @@
 package com.jwt.authentication.controllers;
 
+import com.jwt.authentication.entity.RefreshToken;
 import com.jwt.authentication.entity.User;
 import com.jwt.authentication.models.JwtRequest;
 import com.jwt.authentication.models.JwtResponse;
+import com.jwt.authentication.models.RefreshTokenRequest;
 import com.jwt.authentication.security.JwtHelper;
+import com.jwt.authentication.service.RefreshTokenService;
 import com.jwt.authentication.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +36,9 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+
     private Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/login")
@@ -41,9 +47,11 @@ public class AuthController {
         this.doAuthenticate(request.getEmail(), request.getPassword());
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.helper.generateToken(userDetails);
+        RefreshToken refreshToken = this.refreshTokenService.createRefreshToken(userDetails.getUsername());
 
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
+                .refreshToken(refreshToken.getRefreshToken())
                 .username(userDetails.getUsername()).build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -67,5 +75,20 @@ public class AuthController {
     @PostMapping("/create-user")
     public User createUser(@RequestBody User user) {
         return this.userService.createUser(user);
+    }
+
+    @PostMapping("refresh")
+    public ResponseEntity<JwtResponse> refreshToken(@RequestBody RefreshTokenRequest request) {
+
+        RefreshToken refreshToken = this.refreshTokenService.verifyRefreshToken(request.getRefreshToken());
+        User user = refreshToken.getUser();
+        String token = this.helper.generateToken(user);
+
+        return ResponseEntity.ok(JwtResponse.builder()
+                .refreshToken(refreshToken.getRefreshToken())
+                .jwtToken(token)
+                .username(user.getEmail())
+                .build()
+        );
     }
 }

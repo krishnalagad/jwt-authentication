@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         // Load user from database.
-        User user = this.userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User not found !!"));
+        User user = this.userRepository.findByEmail(username).orElseThrow(() -> new RuntimeException("User does not exists !!"));
 
         return user;
     }

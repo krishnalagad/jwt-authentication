@@ -1,13 +1,7 @@
 package com.jwt.authentication.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -17,11 +11,13 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class RefreshToken {
 
-    // Refresh token itself is unique in nature so making it as primary key.
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int tokenId;
+
     private String refreshToken;
 
     private Instant expiry;
